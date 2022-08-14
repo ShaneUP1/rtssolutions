@@ -1,0 +1,11 @@
+.paginator-button {
+    margin: 8px;
+}
+
+.paginator-button:hover {
+    cursor: pointer;
+}
+
+.paginator-button:disabled {
+    cursor: default;
+}

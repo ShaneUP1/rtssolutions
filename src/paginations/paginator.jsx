@@ -1,5 +1,7 @@
 import React from 'react';
 
+import './paginator.css';
+
 const Paginator = ({
   disabled,
   apiPage,
@@ -11,6 +13,7 @@ const Paginator = ({
   return (
     <span>
       <button
+        className='paginator-button'
         disabled={currentPage === 1 || disabled}
         onClick={() => {
           pageChangeHandler(apiPage - 1);
@@ -20,6 +23,7 @@ const Paginator = ({
       </button>
       {currentPage}
       <button
+        className='paginator-button'
         disabled={isLastPage || disabled}
         onClick={() => {
           pageChangeHandler(apiPage + 1);

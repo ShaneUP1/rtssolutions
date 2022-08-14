@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
-import SearchPage from './pages/searchPage';
-import AppHeader from './headers/appHeader';
-import HistoryPage from "./pages/historyPage";
+import SearchPage from './components/pages/searchPage';
+import AppHeader from './components/headers/appHeader';
+import HistoryPage from "./components/pages/historyPage";
 
 const App = () => {
   return (

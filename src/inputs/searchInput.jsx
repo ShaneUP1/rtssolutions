@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 
-const SearchInput = ({ handleSearchTermSubmit }) => {
+const SearchInput = ({
+  isDisabled,
+  handleSearchTermSubmit
+}) => {
   const [userInput, setUserInput] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (userInput) {
-      handleSearchTermSubmit(userInput);
-    }
+    handleSearchTermSubmit(userInput);
   };
 
   return (
@@ -21,7 +22,16 @@ const SearchInput = ({ handleSearchTermSubmit }) => {
           }}
           placeholder='Search...'
         />
-        <button type='submit'>Search</button>
+        <button
+          type='submit'
+          disabled={isDisabled}
+        >
+          {
+            isDisabled ?
+              '...Loading' :
+              'Search'
+          }
+        </button>
       </form>
     </div>
   );

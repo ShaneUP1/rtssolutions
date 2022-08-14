@@ -1,25 +1,28 @@
 import React from 'react';
 
 const Paginator = ({
-  currentPage,
+  disabled,
+  apiPage,
   pageChangeHandler,
   isLastPage
 }) => {
+  const currentPage = apiPage + 1;
+
   return (
     <span>
       <button
-        disabled={currentPage === 0}
+        disabled={currentPage === 1 || disabled}
         onClick={() => {
-          pageChangeHandler(currentPage - 1);
+          pageChangeHandler(apiPage - 1);
         }}
       >
         Previous
       </button>
       {currentPage}
       <button
-        disabled={isLastPage}
+        disabled={isLastPage || disabled}
         onClick={() => {
-          pageChangeHandler(currentPage + 1);
+          pageChangeHandler(apiPage + 1);
         }}
       >
         Next

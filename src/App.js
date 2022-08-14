@@ -1,11 +1,16 @@
 import './App.css';
+import { Routes, Route } from "react-router-dom";
 import SearchPage from './pages/searchPage';
+import AppHeader from './headers/appHeader';
 
-function App() {
+const App = () => {
   return (
     <div>
-      <header className="app-header">Header</header>
-        <SearchPage />
+      <AppHeader />
+      <Routes>
+        <Route path='/' element={<SearchPage />} />
+        <Route path='/history' element={<div />} />
+      </Routes>
     </div>
   );
 }

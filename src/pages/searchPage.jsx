@@ -11,10 +11,22 @@ const SearchPage = () => {
   const [apiPage, setApiPage] = useState(0);
   const [loading, setLoading] = useState(false);
 
+  const updateLocalStorage = (value) => {
+    const history = JSON.parse(localStorage.getItem('history'));
+    if (history) {
+      history.push(value);
+      localStorage.setItem('history', JSON.stringify(history));
+    } else {
+      const newArray = [value];
+      localStorage.setItem('history', JSON.stringify(newArray));
+    }
+  };
+
   const handleSearch = (userInput) => {
     setLoading(true);
-    let page = !userInput ? 0: apiPage;
+    updateLocalStorage(userInput);
     setSearchTerm(userInput);
+    let page = !userInput ? 0: apiPage;
 
     fetch(`http://hn.algolia.com/api/v1/search?query=${userInput}&page=${page}`)
       .then((response) => response.json())

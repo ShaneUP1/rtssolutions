@@ -8,6 +8,7 @@ const Paginator = ({
   pageChangeHandler,
   isLastPage
 }) => {
+  // adjusted page number rendered on page from api zero-indexed value
   const currentPage = apiPage + 1;
 
   return (

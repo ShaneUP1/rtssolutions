@@ -1,4 +1,4 @@
-import React, { Fragment, useMemo, useState } from 'react';
+import React, { Fragment, useEffect, useMemo, useState } from 'react';
 
 import SearchInput from '../inputs/searchInput';
 import Paginator from '../paginations/paginator';
@@ -12,48 +12,61 @@ const SearchPage = () => {
   const [loading, setLoading] = useState(false);
 
   const updateLocalStorage = (value) => {
+    // check to see if we already have a history item in storage
     const history = JSON.parse(localStorage.getItem('history'));
+
+    // if so, just push current search term into it
     if (history) {
       history.push(value);
       localStorage.setItem('history', JSON.stringify(history));
     } else {
+
+      // if not, create one
       const newArray = [value];
       localStorage.setItem('history', JSON.stringify(newArray));
     }
   };
 
-  const handleSearch = (userInput) => {
-    setLoading(true);
-    updateLocalStorage(userInput);
-    setSearchTerm(userInput);
-    let page = !userInput ? 0: apiPage;
+  // this effect will run if the search term or page number are modified
+  useEffect(() => {
+    const fetchData = () => {
+      fetch(`http://hn.algolia.com/api/v1/search?query=${searchTerm}&page=${apiPage}`)
+        .then((response) => response.json())
+        .then((fetchedData) => {
+          setData(fetchedData);
+          setApiPage(fetchedData.page)
+          setLoading(false);
+        });
+    }
+    if (searchTerm) {
+      fetchData();
+    }
+    setLoading(false);
+  }, [apiPage, searchTerm]);
 
-    fetch(`http://hn.algolia.com/api/v1/search?query=${userInput}&page=${page}`)
-      .then((response) => response.json())
-      .then((fetchedData) => {
-        setData(fetchedData);
-        setApiPage(fetchedData.page)
-        setLoading(false);
-      });
+  // function to pass into search component to handle search term submits
+  const handleSearch = (userInput) => {
+    // first trim and excess spaces and then compare to make sure not calling api for same term
+    if (userInput.trim().length && userInput !== searchTerm) {
+      setLoading(true);
+      updateLocalStorage(userInput);
+      setSearchTerm(userInput);
+      setApiPage(0);
+    }
   };
 
+  // function to pass into paginator to handle page updates
   const handlePageChange = (pageNumber) => {
     setLoading(true);
     setApiPage(pageNumber);
-
-    fetch(`http://hn.algolia.com/api/v1/search?query=${searchTerm}&page=${pageNumber}`)
-      .then((response) => response.json())
-      .then((fetchedData) => {
-        setData(fetchedData);
-        setApiPage(fetchedData.page)
-        setLoading(false);
-      });
   }
 
+  // boolean to determine when to disable Next button
   const isLastPage = useMemo(() => {
     if (data) {
       return apiPage === data.nbPages - 1;
     }
+    return true;
   }, [data, apiPage]);
 
   return (
@@ -63,7 +76,8 @@ const SearchPage = () => {
         handleSearchTermSubmit={handleSearch}
       />
       {
-        data && data.hits &&
+        // if we don't have any data.hits don't show pagination or list
+        data?.hits &&
         <Fragment>
           <Paginator
             disabled={loading}
@@ -81,7 +95,7 @@ const SearchPage = () => {
                     </li>
                   )
                 }
-                return <Fragment />;
+                return <Fragment key={hit.created_at} />;
               })
             }
           </ul>

@@ -8,6 +8,7 @@ const SearchInput = ({
 }) => {
   const [userInput, setUserInput] = useState('');
 
+  // submit handler
   const handleSubmit = (e) => {
     e.preventDefault();
     handleSearchTermSubmit(userInput);
@@ -15,10 +16,11 @@ const SearchInput = ({
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} disabled={isDisabled}>
         <input
           className='search-input'
           type='search'
+          required
           value={userInput}
           onChange={(event) => {
             setUserInput(event.currentTarget.value)

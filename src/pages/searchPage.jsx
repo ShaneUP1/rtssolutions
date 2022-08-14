@@ -8,7 +8,7 @@ const SearchPage = () => {
   const [data, setData] = useState([]);
 
   const handleSearchTermSubmit = (searchTerm) => {
-    fetch(`http://hn.algolia.com/api/v1/search?=${searchTerm}`)
+    fetch(`http://hn.algolia.com/api/v1/search?query=${searchTerm}`)
     .then((response) => response.json())
     .then((fetchedData) => setData(fetchedData.hits));
   };
@@ -16,7 +16,19 @@ const SearchPage = () => {
   return (
     <div>
       <SearchInput handleSearchTermSubmit={handleSearchTermSubmit}/>
+      <ul>
+        {
+          data.map((hit) => {
+            return (
+              <li key={hit.objectID}>
+                <a href={`${hit.url}`}>{hit.title}</a>
+              </li>
+            )
+          })
+        }
+      </ul>
     </div>
+
   );
 };
 

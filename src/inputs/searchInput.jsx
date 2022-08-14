@@ -5,20 +5,23 @@ const SearchInput = ({ handleSearchTermSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('CLICKED')
-    handleSearchTermSubmit(userInput);
+    if (userInput) {
+      handleSearchTermSubmit(userInput);
+    }
   };
 
   return (
     <div className='searchContainer'>
       <form onSubmit={handleSubmit}>
         <input
+          type='search'
           value={userInput}
           onChange={(event) => {
             setUserInput(event.currentTarget.value)
           }}
           placeholder='Search...'
         />
+        <button type='submit'>Search</button>
       </form>
     </div>
   );

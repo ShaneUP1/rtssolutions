@@ -45,7 +45,7 @@ const SearchPage = () => {
   }, [data, apiPage]);
 
   return (
-    <div>
+    <div className='searchPage-container'>
       <SearchInput
         isDisabled={loading}
         handleSearchTermSubmit={handleSearch}
@@ -59,13 +59,13 @@ const SearchPage = () => {
             apiPage={apiPage}
             pageChangeHandler={handlePageChange}
           />
-          <ul>
+          <ul className='list'>
             {
               data.hits.map((hit) => {
                 if (hit.url && hit.title) {
                   return (
-                    <li key={hit.created_at}>
-                      <a href={`${hit.url}`}>{hit.title}</a>
+                    <li key={hit.created_at} className='list-item'>
+                      <a className='link' href={`${hit.url}`}>{hit.title}</a>
                     </li>
                   )
                 }

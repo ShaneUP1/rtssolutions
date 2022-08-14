@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import './searchInput.css';
+
 const SearchInput = ({
   isDisabled,
   handleSearchTermSubmit
@@ -12,9 +14,10 @@ const SearchInput = ({
   };
 
   return (
-    <div className='searchContainer'>
+    <div>
       <form onSubmit={handleSubmit}>
         <input
+          className='search-input'
           type='search'
           value={userInput}
           onChange={(event) => {

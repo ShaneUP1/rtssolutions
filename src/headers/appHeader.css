@@ -1,0 +1,20 @@
+.appHeader-container {
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-container {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+}
+
+.nav-link {
+    padding: 8px;
+    text-decoration: none;
+    color: blue;
+    font-weight: 600;
+}
